@@ -75,9 +75,9 @@ async def dbrev_search_img(message: Message):
         if message_.photo:
             dis = await message.client.download_media(
                 message=message_,
-                file_name=config.DOWN_PATH
+                file_name=config.Dynamic.DOWN_PATH
             )
-            dis_loc = os.path.join(config.DOWN_PATH, os.path.basename(dis))
+            dis_loc = os.path.join(config.Dynamic.DOWN_PATH, os.path.basename(dis))
         if dis_loc:
             hash = str(imagehash.average_hash(Image.open(dis_loc)))
             c2db = dbhashall.find_one({hash:{'$exists': 1}})
