@@ -11,6 +11,7 @@ from pymongo import MongoClient
 mongocl = MongoClient("mongodb+srv://bhavya32:bhavya32@cluster0.zv4sy.mongodb.net/cluster0?retryWrites=true&w=majority")
 dbhashall=mongocl['hashes']["dbhashall"]
 dbhashimp=mongocl['hashes']["dbhashimp"]
+dbhashnew=mongocl['hashes']["dbhashnew"]
 grpstatus=mongocl['grps']["grpstatus"]
 grpstatuslcl=[]
 #grpstatus = {"-1001532927333":{"ap":0,"ar":1,"name":"AFG"},"-1001596986612":{"ap":0,"ar":1,"name":"Anime"},"-606367897":{"ap":1,"ar":2,"name":"test"},"-1001629575273":{"ap":1,"ar":2,"name":"reverse"}}
@@ -89,7 +90,27 @@ async def dbrev_search_img(message: Message):
             await message.edit("Image couldnt be downloaded.")
             return
             
-            
+@userge.on_cmd("pp", about="revdbsearch_new")
+async def dbrev_search_img_new(message: Message):
+    dis_loc = ''
+    if message.reply_to_message:
+        message_ = message.reply_to_message
+        if message_.photo:
+            dis = await message.client.download_media(
+                message=message_,
+                file_name=config.Dynamic.DOWN_PATH
+            )
+            dis_loc = os.path.join(config.Dynamic.DOWN_PATH, os.path.basename(dis))
+        if dis_loc:
+            hash = str(imagehash.average_hash(Image.open(dis_loc)))
+            c2db = dbhashnew.find_one({"hash":hash})
+            if c2db:
+             await message.edit("Name - " + c2db[hash])
+            else:
+             await message.edit("Image not present in DB.")
+        else:
+            await message.edit("Image couldnt be downloaded.")
+            return            
 @userge.on_filters(filters.photo)
 async def echo(message):
 # try: 
