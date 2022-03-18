@@ -105,7 +105,7 @@ async def dbrev_search_img_new(message: Message):
             hash = str(imagehash.average_hash(Image.open(dis_loc)))
             c2db = dbhashnew.find_one({"hash":hash})
             if c2db:
-             await message.edit("Name - " + c2db[hash])
+             await message.edit("Name - " + c2db["Name"])
             else:
              await message.edit("Image not present in DB.")
         else:
