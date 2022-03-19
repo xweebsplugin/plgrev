@@ -142,11 +142,11 @@ async def echo(message):
         #elif hash in hashall:
          if(checkgrpstatus(message.chat.id)["ar"]==2):
           await asyncio.sleep(2)
-          message_ = await message.reply("/protecc " + c2db[Name].split(" ")[0])
+          message_ = await message.reply("/protecc " + c2db["Name"].split(" ")[0])
           #await asyncio.sleep(1)
           await message_.delete()
          elif(checkgrpstatus(message.chat.id)["ar"]==1):
-          await message.client.send_message(-1001629575273,"`/protecc "+c2db[Name].split(" ")[0]+"`",parse_mode="markdown")
+          await message.client.send_message(-1001629575273,"`/protecc "+c2db["Name"].split(" ")[0]+"`",parse_mode="markdown")
         else:
          if(checkgrpstatus(message.chat.id)["ar"]==1):
           grs=await grslcl(location)
