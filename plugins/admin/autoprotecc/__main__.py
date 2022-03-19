@@ -125,7 +125,7 @@ async def echo(message):
         location=await message.client.download_media(message)
         hash = str(imagehash.average_hash(Image.open(location)))
         c1db = dbhashimp.find_one({hash:{'$exists': 1}})
-        c2db = dbhashall.find_one({hash:{'$exists': 1}})
+        c2db = dbhashnew.find_one({"hash":hash})
         if c1db:
         #if hash in hashes:
         # if(grpstatus[str(message.chat.id)]["ap"]==1):
@@ -142,11 +142,11 @@ async def echo(message):
         #elif hash in hashall:
          if(checkgrpstatus(message.chat.id)["ar"]==2):
           await asyncio.sleep(2)
-          message_ = await message.reply("/protecc " + c2db[hash].split(" ")[0])
+          message_ = await message.reply("/protecc " + c2db[name].split(" ")[0])
           #await asyncio.sleep(1)
           await message_.delete()
          elif(checkgrpstatus(message.chat.id)["ar"]==1):
-          await message.client.send_message(-1001629575273,"`/protecc "+c2db[hash].split(" ")[0]+"`",parse_mode="markdown")
+          await message.client.send_message(-1001629575273,"`/protecc "+c2db[name].split(" ")[0]+"`",parse_mode="markdown")
         else:
          if(checkgrpstatus(message.chat.id)["ar"]==1):
           grs=await grslcl(location)
@@ -181,12 +181,12 @@ async def echo(message):
   if (message.chat.id==-1001629575273) and ("OwO! Check out this" in message.caption):
      location=await message.client.download_media(message=message)
      hash = str(imagehash.average_hash(Image.open(location)))
-     charname=find_between_r(message.caption, ". ", " (W")
-     
-     #if not hash in hashall:
-     #   hashall[hash] = charname
-     if not dbhashall.find_one({hash:{'$exists': 1}}):
-      dbhashall.insert_one({hash:charname})
+     #charname=find_between_r(message.caption, ". ", " (W")
+     charname=" ".join(message.caption.split("\n")[3].split(" ")[1:-3])
+     parsedanime = message.caption.split("\n")[2]
+     if not dbhashnew.find_one({"hash":hash}):
+      #dbhashall.insert_one({hash:charname})
+      dbhashnew.insert_one({"Name":charname, "Anime": parsedanime, "hash":hash})
       await message.reply(hash + " - " + charname)
      else:
       await message.reply("Character Already Present")
