@@ -121,7 +121,7 @@ async def echo(message):
      if c2db: 
       await asyncio.sleep(2)
       await message.reply(c2db[hash].split(" ")[0])
-  elif (message.from_user.id in {1964681186,1733263647,1051235839}) and ("Add them to your harem by sending /protecc character name" in message.caption): 
+  elif (message.from_user.id in {1964681186,1733263647,1051235839}) and (("A husbando has appeared!" in message.caption) or ("A waifu has appeared!" in message.caption)): 
         location=await message.client.download_media(message)
         hash = str(imagehash.average_hash(Image.open(location)))
         c1db = dbhashimp.find_one({hash:{'$exists': 1}})
